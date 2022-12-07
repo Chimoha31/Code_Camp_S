@@ -14,7 +14,7 @@ export function getPostsData() {
   const allPostsData = fileNames.map((fileName) => {
     // replace()第一引数に(/\$/, "")$の前に省きたい文字列を入れ、第二引数を空にすると$前に文字列を省いたものを格納する。
     //ファイル名
-    const id = fileName.replace(/\.md$/, ""); 
+    const id = fileName.replace(/\.md$/, "");
 
     // ファイルの中身を取り出す
     const fullPath = path.join(postsDirectory, fileName);
@@ -32,5 +32,21 @@ export function getPostsData() {
   return allPostsData;
 }
 
+// getStaticPath()を使用しreturnで使うpathを取得する([id].jsで使用)
+export function getAllPostIds() {
+  const fileNames = fs.readFileSync(postsDirectory);
+  return fileNames.map((fileName) => {
+    params: {
+      id: fileName.replace(/\.md$/, "");
+    }
+  });
+}
 
-// getStaticPathでreturnで使うpathを取得する
+// idに基づいてブログ投稿データを返す
+export function getPostData(id) {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContent = fs.readFileSync(fullPath, "utf8");
+
+  const matterResult = matter(fileContent);
+  matterResult
+}
