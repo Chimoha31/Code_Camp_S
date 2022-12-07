@@ -39,8 +39,8 @@ export default function Home({ allPostsData }) {
       </Head>
       <section className={utilStyles.headingMd}>
         <p>
-          I am one year old baby boy Teddy kun 🐶 I'm the cutest puppy ever in
-          the world 🌍
+          I am one year old baby boy Teddy kun. I'm the cutest puppy ever in
+          the world.
         </p>
       </section>
 

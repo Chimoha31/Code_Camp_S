@@ -1,7 +1,7 @@
 const Custom404 = () => {
   return (
     <h1>
-      Error!! Can't find page
+      Error.
     </h1>
   );
 }
