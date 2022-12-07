@@ -1,24 +1,32 @@
-import { getStaticProps } from "..";
 import Layout from "../../components/Layout";
+import { getAllPostIds, getPostData } from "../../lib/post";
 
-export async function getStaticPaths(context) {
-  const paths = getStaticProps();
+export async function getStaticPaths() {
+  const paths = await getAllPostIds();
+  console.log(paths)
+  return {
+    paths,
+    fallback: false, //あとで説明。(falseにすると、上のpathsに含まれてないあらゆるパスはアクセスすると404ページになる。)
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const postData = await getPostData(params.id);
+  // console.log(postData);
   return {
     props: {
-      paths,
-      fallback: false,
+      postData,
     },
   };
 }
 
-export function getStaticProps({params}) {
-  return {
-    
-  }
-}
-
-const Post = () => {
-  return <Layout>Test test test</Layout>;
+const Post = ({ postData }) => {
+  return (
+    <Layout>
+      {postData.title}
+      <br />
+    </Layout>
+  );
 };
 
 export default Post;

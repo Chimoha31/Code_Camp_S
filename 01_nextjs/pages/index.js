@@ -11,7 +11,7 @@ import { getPostsData } from "../lib/post";
 // -----------------------------------------
 export async function getStaticProps() {
   const allPostsData = getPostsData();
-  console.log(allPostsData);
+  // console.log(allPostsData);
 
   return {
     props: {

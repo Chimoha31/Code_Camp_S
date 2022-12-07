@@ -3,6 +3,9 @@ import path from "path";
 import fs from "fs";
 // meta dataを取り出すためのlibrary
 import matter from "gray-matter";
+// .mdの内容を自動でマークアップ言語してくれる
+import { remark } from "remark";
+import html from "remark-html";
 
 // path.join()第一引数がcurrent directory(process.cdw()で表せる)。第二引数が取得してくるdirectory。
 const postsDirectory = path.join(process.cwd(), "posts");
@@ -34,19 +37,32 @@ export function getPostsData() {
 
 // getStaticPath()を使用しreturnで使うpathを取得する([id].jsで使用)
 export function getAllPostIds() {
-  const fileNames = fs.readFileSync(postsDirectory);
+  const fileNames = fs.readdirSync(postsDirectory);
+
   return fileNames.map((fileName) => {
-    params: {
-      id: fileName.replace(/\.md$/, "");
-    }
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, "")
+      },
+    };
   });
 }
 
 // idに基づいてブログ投稿データを返す
-export function getPostData(id) {
+export async function getPostData(id) {
   const fullPath = path.join(postsDirectory, `${id}.md`);
-  const fileContent = fs.readFileSync(fullPath, "utf8");
+  const fileContents = fs.readFileSync(fullPath, "utf8");
 
-  const matterResult = matter(fileContent);
-  matterResult
+  const matterResult = matter(fileContents);
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+
+    const contentHTML = processedContent.toString();
+
+    return {
+      id,
+      contentHTML,
+      ...matterResult.data,
+    };
 }
