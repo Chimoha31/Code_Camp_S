@@ -1,12 +1,13 @@
 import Layout from "../../components/Layout";
 import { getAllPostIds, getPostData } from "../../lib/post";
+import utilStyles from "../../styles/utils.module.css";
 
 export async function getStaticPaths() {
   const paths = await getAllPostIds();
-  console.log(paths)
+  console.log(paths);
   return {
     paths,
-    fallback: false, //あとで説明。(falseにすると、上のpathsに含まれてないあらゆるパスはアクセスすると404ページになる。)
+    fallback: false, //(falseにすると、上のpathsに含まれてないあらゆるパスはアクセスすると404ページになる。)
   };
 }
 
@@ -23,8 +24,12 @@ export async function getStaticProps({ params }) {
 const Post = ({ postData }) => {
   return (
     <Layout>
-      {postData.title}
-      <br />
+      <article>
+        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>{postData.date}</div>
+        <div dangerouslySetInnerHTML={{__html: postData.contentHTML}} />
+        
+      </article>
     </Layout>
   );
 };
