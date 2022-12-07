@@ -13,14 +13,14 @@ export function getPostsData() {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
     // replace()第一引数に(/\$/, "")$の前に省きたい文字列を入れ、第二引数を空にすると$前に文字列を省いたものを格納する。
-    const id = fileName.replace(/\.md$/, ""); //ファイル名
+    //ファイル名
+    const id = fileName.replace(/\.md$/, ""); 
 
     // ファイルの中身を取り出す
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, "utf8");
 
     const matterResult = matter(fileContents);
-    console.log(matterResult);
 
     // idとdataを返す
     return {
@@ -31,3 +31,6 @@ export function getPostsData() {
 
   return allPostsData;
 }
+
+
+// getStaticPathでreturnで使うpathを取得する

@@ -6,7 +6,9 @@ import Layout from "../components/Layout";
 import utilStyles from "../styles/utils.module.css";
 import { getPostsData } from "../lib/post";
 
-// SSGの場合
+// -----------------------------------------
+// SSGの場合=> getStaticProps()関数を使用する！
+// -----------------------------------------
 export async function getStaticProps() {
   const allPostsData = getPostsData();
   console.log(allPostsData);
@@ -17,6 +19,17 @@ export async function getStaticProps() {
     },
   };
 }
+
+// -----------------------------------------
+// SSRの場合=>getSrverSideProps()関数を使用！！
+// -----------------------------------------
+// export async function getServerSideProps(context) {
+//   return {
+//     props: {
+//       // Componentに渡すためのprops
+//     }
+//   }
+// }
 
 export default function Home({ allPostsData }) {
   return (
@@ -31,18 +44,21 @@ export default function Home({ allPostsData }) {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2>📝 Engineer blog</h2>
         <div className={styles.grid}>
-          <article>
-            <Link href="/">
-              <img src="/images/html.jpeg" className={styles.thumbnailImage} />
-            </Link>
-            <Link href="/">
-              <p className={utilStyles.boldText}>
-                First Step: Let's learn HTML first!!
-              </p>
-            </Link>
-            <br />
-            <small className={utilStyles.lightText}>December, 7, 2022</small>
-          </article>
+          {allPostsData.map((post) => (
+            <article key={post.id}>
+              <Link href={`/posts/${post.id}`}>
+                <img
+                  src={`${post.thumbnail}`}
+                  className={styles.thumbnailImage}
+                />
+              </Link>
+              <Link href={`/posts/${post.id}`}>
+                <p className={utilStyles.boldText}>{post.title}</p>
+              </Link>
+              <br />
+              <small className={utilStyles.lightText}>{post.date}</small>
+            </article>
+          ))}
         </div>
       </section>
     </Layout>
