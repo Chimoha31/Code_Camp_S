@@ -38,10 +38,7 @@ export default function Home({ allPostsData }) {
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>
-          I am one year old baby boy Teddy kun. I'm the cutest puppy ever in
-          the world.
-        </p>
+        <p>I am Teddy kun</p>
       </section>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
